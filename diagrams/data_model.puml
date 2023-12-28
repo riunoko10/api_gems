@@ -1,0 +1,32 @@
+@startuml
+
+
+entity Gems {
+    id_gem: integer <<pk>>
+    --
+    type_gem: string <<Diamond, Emerald, Ruby>>
+    --
+    properties: integer <<fk>>
+    --
+    price: float
+    --
+    is_available: bool
+}
+
+entity GemPoperties {
+    id_propertie: integer <<pk>>
+    --
+    size: float
+    --
+    color: string <<D,E,G,F,H,I>>
+    --
+    clarity: string <<SI, VS,VVS, FL>>
+}
+
+GemPoperties }|-- Gems
+
+
+@enduml
+
+
+
