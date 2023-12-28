@@ -25,10 +25,12 @@ def hello():
     return {"message": "Hello World"}
 
 
-@app.get("/gems")
+@app.get("/gems", response_model=List[gem_models.GemResponse])
 def gems():
     all_gems = gem_repository.select_all_gems(engine)
-    return {"gems": all_gems}
+    if all_gems is None:
+        raise HTTPException(status_code=404, detail="Gems not found")
+    return all_gems
 
 
 @app.get("/gem/{id}")

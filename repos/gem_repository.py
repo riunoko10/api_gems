@@ -1,16 +1,28 @@
-from models.gem_models import Gem, GemProperties, GemComplete
+from models.gem_models import Gem, GemProperties, GemComplete, GemResponse
 from sqlmodel import Session, select
 import populate
 from fastapi import HTTPException
 
+
 def select_all_gems(engine):
+    res = []
     with Session(engine) as session:
         statement = select(Gem, GemProperties).join(GemProperties)
         result = session.exec(statement)
-        res = []
+        
+        gem: Gem
+        properties: GemProperties
         for gem, properties in result:
-            res.append({"gem": gem, "properties": properties})
-        return res
+            respose_new = GemResponse(id=gem.id, 
+                        price=gem.price, 
+                        available=gem.available, 
+                        type=gem.type, 
+                        size=properties.size, 
+                        color=properties.color, 
+                        clarity=properties.clarity
+            )
+            res.append(respose_new)
+    return res
 
 
 def select_gem_by_id(engine, id_gem):

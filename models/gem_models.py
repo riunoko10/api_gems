@@ -51,8 +51,6 @@ class GemProperties(SQLModel, table=True):
     gem: Optional['Gem'] = Relationship(back_populates="gem_properties")
 
 
-
-
 class Gem(SQLModel, table=True):
     metadata = meta
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -64,3 +62,14 @@ class Gem(SQLModel, table=True):
     gem_properties: Optional[GemProperties] = Relationship(back_populates="gem")
 
 
+class GemResponse(SQLModel):
+    id: int
+    price: float
+    available: bool
+    type: Optional[GemTypes]
+    size: Optional[float]
+    clarity: Optional[GemClarity]
+    color: Optional[GemColors]
+
+    class Config:
+        orm_mode = True
